@@ -9,4 +9,4 @@ homeassistant:
 logger:
   default: info
   logs:
-    custom_components.nintendo_wiiu: debug
+    custom_components.nintendo_wiiu_ristretto: debug

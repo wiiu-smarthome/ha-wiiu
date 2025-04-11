@@ -1,0 +1,12 @@
+{
+    "domain": "nintendo_wiiu_ristretto",
+    "name": "Nintendo Wii U (with Ristretto)",
+    "config_flow": true,
+    "codeowners": [],
+    "dependencies": [],
+    "iot_class": "local_polling",
+    "requirements": [
+        "python-wiiu-ristretto==1.1"
+    ],
+    "version": "1.0"
+}
