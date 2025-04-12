@@ -20,7 +20,7 @@ class WiiUButtonEntityDescription(ButtonEntityDescription):
 
     press_fn: Callable[[WiiUEntity], None] = lambda: None
 
-ENTITY_DESCRIPTIONS: tuple[WiiUButtonEntityDescription, ...] = (
+ENTITY_DESCRIPTIONS: list[WiiUButtonEntityDescription] = [
     WiiUButtonEntityDescription(
         key="restart",
         name="Restart",
@@ -29,7 +29,7 @@ ENTITY_DESCRIPTIONS: tuple[WiiUButtonEntityDescription, ...] = (
         icon="mdi:restart",
         entity_category=EntityCategory.DIAGNOSTIC
     ),
-)
+]
 
 async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     """Set up the button platform."""
