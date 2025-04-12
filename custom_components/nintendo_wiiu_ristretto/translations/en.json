@@ -2,10 +2,11 @@
     "config": {
         "step": {
             "user": {
-                "description": "If you need help with the configuration have a look here: https://github.com/ludeeus/integration_blueprint",
+                "description": "If you need help with the configuration have a look here: https://github.com/ItzSwirlz/ha-wiiu",
                 "data": {
-                    "ip": "IP Address",
-                    "port": "Ristretto Pot"
+                    "ip_address": "IP Address",
+                    "port": "Ristretto Pot",
+                    "name": "Device Name"
                 }
             }
         },
