@@ -4,7 +4,7 @@ import logging
 from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_IP_ADDRESS, CONF_PORT
+from homeassistant.const import CONF_IP_ADDRESS, CONF_PORT, CONF_SCAN_INTERVAL
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from python_wiiu_ristretto import WiiU
@@ -36,7 +36,9 @@ class WiiUCoordinator(DataUpdateCoordinator):
             _LOGGER,
             name="Wii U Coordinator",
             config_entry=config_entry,
-            update_interval=timedelta(10),
+            update_interval=timedelta(
+                seconds=config_entry.data.get(CONF_SCAN_INTERVAL, 10)
+            ),
             always_update=True,
         )
         self.config_entry = config_entry
@@ -86,7 +88,7 @@ class WiiUCoordinator(DataUpdateCoordinator):
             await self.hass.async_add_executor_job(self._get_current_app_name)
             await self.hass.async_add_executor_job(self._get_source_list)
             self.is_on = True
-        except:
+        except Exception as e:
             self.is_on = False
 
     async def async_reboot(self) -> None:

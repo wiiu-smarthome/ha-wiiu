@@ -10,3 +10,9 @@ logger:
   default: info
   logs:
     custom_components.nintendo_wiiu_ristretto: debug
+    python_wiiu_ristretto: debug
+
+# Enable VSCode debugging
+debugpy:
+  start: true
+  wait: true

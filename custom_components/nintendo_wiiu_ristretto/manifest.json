@@ -5,6 +5,7 @@
     "codeowners": [],
     "dependencies": [],
     "iot_class": "local_polling",
+    "loggers": ["python_wiiu_ristretto"],
     "requirements": [
         "python-wiiu-ristretto==1.1.1"
     ],
