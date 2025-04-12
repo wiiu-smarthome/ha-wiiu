@@ -10,9 +10,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from python_wiiu_ristretto import WiiU
 
-from custom_components.nintendo_wiiu_ristretto import DOMAIN
+from custom_components.nintendo_wiiu_ristretto.coordinator import WiiUCoordinator
+from custom_components.nintendo_wiiu_ristretto.entity import WiiUEntity
 
 
 async def async_setup_entry(
@@ -21,20 +21,10 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ):
     # TODO: Make list, handle devices being offline
-    config = config_entry
-    async_add_entities(
-        [
-            NintendoWiiUConsole(
-                config=config_entry,
-                ip=config_entry.data["ip"],
-                ristretto_port=config_entry.data["port"],
-            )
-        ],
-        update_before_add=True,
-    )
+    async_add_entities([NintendoWiiUMediaPlayer(coordinator=config_entry.runtime_data)])
 
 
-class NintendoWiiUConsole(MediaPlayerEntity):
+class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
     """Representation of a Wii U console."""
 
     _attr_icon = "mdi:nintendo-wiiu"
@@ -42,61 +32,40 @@ class NintendoWiiUConsole(MediaPlayerEntity):
         MediaPlayerEntityFeature.TURN_OFF | MediaPlayerEntityFeature.SELECT_SOURCE
     )
 
-    _title_map = dict
-
-    def __init__(self, config: ConfigEntry, ip: str, ristretto_port: int) -> None:
-        self.name = "Wii U"
-        self.config = config
-        self._attr_unique_id = config.entry_id
+    def __init__(self, coordinator: WiiUCoordinator):
+        super().__init__(coordinator=coordinator)
+        self.coordinator = coordinator
+        self._attr_name = "Wii U"
         self._attr_device_class = MediaPlayerDeviceClass.TV
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, self.config.entry_id)},
-            manufacturer="Nintendo",
-            name="Wii U",
-        )
-        self.source_list = []
-        self._wiiu = WiiU(ip_address=ip, ristretto_port=ristretto_port)
+        self._attr_source = coordinator.source
+        self._attr_source_list = coordinator.source_list
 
-    def _get_device_info(self) -> None:
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, self.config.entry_id)},
-            manufacturer="Nintendo",
-            hw_version=str(self._wiiu.get_device_hardware_version()),
-            model=self._wiiu.get_device_model_number(),
-            serial_number=self._wiiu.get_device_serial_id(),
-            sw_version=self._wiiu.get_device_version(),
-        )
+    @property
+    def app_name(self) -> str:
+        return self.coordinator.source
 
-    def _get_current_app_name(self) -> None:
-        self.source = self._wiiu.get_current_title_name()
-        self.app_name = self.source
-        self.state = MediaPlayerState.ON
+    @property
+    def state(self) -> MediaPlayerState:
+        if self.coordinator.is_on:
+            return MediaPlayerState.ON
+        return MediaPlayerState.OFF
 
-    def _get_source_list(self) -> None:
-        self._title_map = self._wiiu.get_title_list()
-        self.source_list = []
-        for value in self._title_map.values():
-            self.source_list.append(value)
+    @property
+    def device_info(self) -> DeviceInfo:
+        return self.coordinator._attr_device_info
 
-    def _launch_title(self, source: int) -> None:
-        self._wiiu.launch_title(source)
+    @property
+    def unique_id(self) -> str:
+        return self.coordinator.serial
 
-    async def async_update(self) -> None:
-        # TODO: Handle console being off
-        if self._attr_device_info is None:
-            await self.hass.async_add_executor_job(self._get_device_info)
-        if self.source_list == []:
-            await self.hass.async_add_executor_job(self._get_source_list)
-        await self.hass.async_add_executor_job(self._get_current_app_name)
+    async def async_get_device_info(self):
+        await self.coordinator.async_get_device_info()
 
     async def async_select_source(self, source: str) -> None:
-        # Unlike Homebridge, the ID of the source actually is more important so we need to search for it
-        for titleid, name in self._title_map.items():
-            if name == source:
-                return await self.hass.async_add_executor_job(
-                    self._launch_title, titleid
-                )
-        return None
+        await self.coordinator.async_select_source(source)
 
-    async def async_turn_off(self) -> None:
-        await self.hass.async_add_executor_job(self._wiiu.shutdown)
+    async def async_update(self) -> None:
+        return await self.coordinator._async_update_data()
+
+    async def async_turn_off(self):
+        await self.coordinator.async_turn_off()
