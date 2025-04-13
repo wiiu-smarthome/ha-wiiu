@@ -71,11 +71,10 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         """Select a source on the Wii U console."""
         for titleid, name in self.coordinator.title_map.items():
             if name == source:
-                return await self.hass.async_add_executor_job(
-                    self.coordinator.wii.launch_title, titleid
-                )
+                return await self.coordinator.wii.async_launch_title(titleid)
         return None
 
     async def async_turn_off(self) -> None:
         """Turn off the Wii U console."""
-        await self.hass.async_add_executor_job(self.coordinator.wii.shutdown)
+        await self.coordinator.wii.async_shutdown()
+        self.coordinator.is_on = False

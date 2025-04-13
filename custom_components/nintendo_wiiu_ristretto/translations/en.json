@@ -6,7 +6,9 @@
                 "data": {
                     "ip_address": "IP Address",
                     "port": "Ristretto Port",
-                    "name": "Device Name"
+                    "name": "Device Name",
+                    "scan_interval": "Update Interval",
+                    "timeout": "Timeout"
                 }
             }
         },

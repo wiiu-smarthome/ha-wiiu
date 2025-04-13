@@ -5,7 +5,6 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
 from .coordinator import WiiUCoordinator
-from .const import DOMAIN
 
 PLATFORMS = [Platform.BUTTON, Platform.MEDIA_PLAYER]
 

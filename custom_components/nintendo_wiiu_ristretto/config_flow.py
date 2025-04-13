@@ -3,11 +3,16 @@
 from typing import Any
 
 import voluptuous as vol
-
-from homeassistant.const import CONF_IP_ADDRESS, CONF_PORT, CONF_NAME, CONF_SCAN_INTERVAL
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.const import (
+    CONF_IP_ADDRESS,
+    CONF_NAME,
+    CONF_PORT,
+    CONF_SCAN_INTERVAL,
+    CONF_TIMEOUT,
+)
 
-from .const import DOMAIN
+from .const import DEFAULT_TIMEOUT, DOMAIN
 
 SCHEMA = vol.Schema(
     {
@@ -15,6 +20,7 @@ SCHEMA = vol.Schema(
         vol.Required(CONF_PORT, default=8572): int,
         vol.Optional(CONF_NAME, default="Wii U"): str,
         vol.Optional(CONF_SCAN_INTERVAL, default=10): int,
+        vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): int
     }
 )
 

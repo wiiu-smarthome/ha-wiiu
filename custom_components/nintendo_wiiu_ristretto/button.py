@@ -18,6 +18,11 @@ from .entity import WiiUEntity
 class WiiUButtonEntityDescription(ButtonEntityDescription):
     """Class describing Wii U button entities."""
 
+    key: str
+    name: str
+    device_class: ButtonDeviceClass | None = None
+    icon: str | None = None
+    entity_category: EntityCategory | None = None
     press_fn: Callable[[WiiUEntity], None] = lambda: None
 
 
@@ -26,7 +31,7 @@ ENTITY_DESCRIPTIONS: list[WiiUButtonEntityDescription] = [
         key="restart",
         name="Restart",
         device_class=ButtonDeviceClass.RESTART,
-        press_fn=lambda entity: entity.coordinator.async_reboot(),
+        press_fn=lambda entity: entity.coordinator.wii.async_reboot,
         icon="mdi:restart",
         entity_category=EntityCategory.DIAGNOSTIC,
     ),
