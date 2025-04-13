@@ -20,16 +20,18 @@ class WiiUButtonEntityDescription(ButtonEntityDescription):
 
     press_fn: Callable[[WiiUEntity], None] = lambda: None
 
+
 ENTITY_DESCRIPTIONS: list[WiiUButtonEntityDescription] = [
     WiiUButtonEntityDescription(
         key="restart",
         name="Restart",
         device_class=ButtonDeviceClass.RESTART,
-        press_fn=lambda entity: entity.coordinator.async_reboot,
+        press_fn=lambda entity: entity.coordinator.async_reboot(),
         icon="mdi:restart",
-        entity_category=EntityCategory.DIAGNOSTIC
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
 ]
+
 
 async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     """Set up the button platform."""
@@ -37,17 +39,17 @@ async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     if not isinstance(coordinator, WiiUCoordinator):
         return
     for description in ENTITY_DESCRIPTIONS:
-        async_add_entities([GenericWiiUButton(coordinator=coordinator, description=description)])
+        async_add_entities(
+            [GenericWiiUButton(coordinator=coordinator, description=description)]
+        )
 
 
 class GenericWiiUButton(WiiUEntity, ButtonEntity):
     """Representation of a Wii U button entity."""
 
     def __init__(
-            self,
-            coordinator: WiiUCoordinator,
-            description: WiiUButtonEntityDescription
-        ) -> None:
+        self, coordinator: WiiUCoordinator, description: WiiUButtonEntityDescription
+    ) -> None:
         """Initialize the button."""
         super().__init__(coordinator=coordinator)
         self.coordinator = coordinator

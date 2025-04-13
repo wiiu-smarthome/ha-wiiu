@@ -25,5 +25,5 @@ class WiiUEntity(CoordinatorEntity[WiiUCoordinator]):
             hw_version=str(self.coordinator.hw_version),
             model=self.coordinator.model,
             serial_number=self.coordinator.serial,
-            sw_version=self.coordinator.serial,
+            sw_version=self.coordinator.sw_version,
         )

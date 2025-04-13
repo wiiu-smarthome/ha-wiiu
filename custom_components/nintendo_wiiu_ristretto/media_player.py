@@ -24,9 +24,13 @@ async def async_setup_entry(
 ) -> None:
     """Set up the Wii U media player entity."""
     # TODO: Make list, handle devices being offline
-    async_add_entities([NintendoWiiUMediaPlayer(
-        coordinator=config_entry.runtime_data,
-        name=config_entry.data[CONF_NAME])])
+    async_add_entities(
+        [
+            NintendoWiiUMediaPlayer(
+                coordinator=config_entry.runtime_data, name=config_entry.data[CONF_NAME]
+            )
+        ]
+    )
 
 
 class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
@@ -49,6 +53,11 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
     @property
     def app_name(self) -> str:
         """Return the name of the currently running app."""
+        return self.coordinator.source
+
+    @property
+    def source(self) -> str:
+        """Return the name of the source (the currently running app)."""
         return self.coordinator.source
 
     @property

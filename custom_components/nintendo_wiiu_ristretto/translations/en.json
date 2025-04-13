@@ -2,10 +2,10 @@
     "config": {
         "step": {
             "user": {
-                "description": "If you need help with the configuration have a look here: https://github.com/ItzSwirlz/ha-wiiu",
+                "description": "Make sure your console is on, and Ristretto is running. Be aware currently powering on the console from powered off state is not available, nor is requests when ProcUI is in the foreground (when applets are open). Requests while an applet is open can cause the console to softlock or crash.",
                 "data": {
                     "ip_address": "IP Address",
-                    "port": "Ristretto Pot",
+                    "port": "Ristretto Port",
                     "name": "Device Name"
                 }
             }

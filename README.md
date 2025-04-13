@@ -33,7 +33,7 @@ Platform | Description
 1. Download _all_ the files from the `custom_components/nintendo_wiiu_ristretto/` directory (folder) in this repository.
 1. Place the files you downloaded in the new directory (folder) you created.
 1. Restart Home Assistant
-1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Integration blueprint"
+1. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Nintendo Wii U (with Ristretto)"
 
 ## Configuration is done in the UI
 
@@ -47,7 +47,7 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 
 [Wii U]: https://github.com/ItzSwirlz/ha-wiiu
 [buymecoffee]: https://www.buymeacoffee.com/ItzSwirlz
-[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
+<!-- [buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge -->
 [commits-shield]: https://img.shields.io/github/commit-activity/y/ItzSwirlz/ha-wiiu.svg?style=for-the-badge
 [commits]: https://github.com/ItzSwirlz/ha-wiiu/commits/main
 [discord]: https://discord.gg/Qa5fW2R
