@@ -2,9 +2,9 @@
 
 import json
 import logging
+from asyncio import TimeoutError
 from datetime import timedelta
 
-from asyncio import TimeoutError
 from aiohttp import ClientOSError
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
@@ -44,7 +44,9 @@ class WiiUCoordinator(DataUpdateCoordinator):
             name="Wii U Coordinator",
             config_entry=config_entry,
             update_interval=timedelta(
-                seconds=config_entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_UPDATE_INTERVAL)
+                seconds=config_entry.data.get(
+                    CONF_SCAN_INTERVAL, DEFAULT_UPDATE_INTERVAL
+                )
             ),
             always_update=True,
         )
@@ -75,7 +77,7 @@ class WiiUCoordinator(DataUpdateCoordinator):
             ip_address=self._ip_address,
             ristretto_port=self._ristretto_port,
             session=async_create_clientsession(self.hass),
-            timeout=self.config_entry.data.get(CONF_TIMEOUT, DEFAULT_TIMEOUT)
+            timeout=self.config_entry.data.get(CONF_TIMEOUT, DEFAULT_TIMEOUT),
         )
         self.wii.timeout = self.config_entry.data.get(CONF_SCAN_INTERVAL)
         await self.async_get_hardware_information()

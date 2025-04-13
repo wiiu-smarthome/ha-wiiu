@@ -20,6 +20,7 @@ class WiiUSensorEntityDescription(SensorEntityDescription):
 
     value_fn: Callable[[WiiUEntity], None] = lambda: None
 
+
 ENTITY_DESCRIPTIONS: list[WiiUSensorEntityDescription] = [
     WiiUSensorEntityDescription(
         key="gamepad_battery",
@@ -28,9 +29,10 @@ ENTITY_DESCRIPTIONS: list[WiiUSensorEntityDescription] = [
         name="Gamepad Battery",
         state_class=SensorStateClass.MEASUREMENT,
         device_class=SensorDeviceClass.BATTERY,
-        value_fn=lambda entity: entity.coordinator.gamepad_battery
+        value_fn=lambda entity: entity.coordinator.gamepad_battery,
     )
 ]
+
 
 async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     """Set up the button platform."""
@@ -38,10 +40,12 @@ async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     if not isinstance(coordinator, WiiUCoordinator):
         return
     async_add_entities(
-        [GenericWiiUSensor(coordinator=coordinator, description=description) 
-         for description in ENTITY_DESCRIPTIONS
+        [
+            GenericWiiUSensor(coordinator=coordinator, description=description)
+            for description in ENTITY_DESCRIPTIONS
         ]
     )
+
 
 class GenericWiiUSensor(WiiUEntity, RestoreSensor):
     """Generic sensor for Wii U using a restore sensor."""

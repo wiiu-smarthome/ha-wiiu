@@ -44,8 +44,10 @@ async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     if not isinstance(coordinator, WiiUCoordinator):
         return
     async_add_entities(
-        [GenericWiiUButton(coordinator=coordinator, description=description)
-         for description in ENTITY_DESCRIPTIONS]
+        [
+            GenericWiiUButton(coordinator=coordinator, description=description)
+            for description in ENTITY_DESCRIPTIONS
+        ]
     )
 
 

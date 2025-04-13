@@ -20,9 +20,10 @@ SCHEMA = vol.Schema(
         vol.Required(CONF_PORT, default=8572): int,
         vol.Optional(CONF_NAME, default="Wii U"): str,
         vol.Optional(CONF_SCAN_INTERVAL, default=10): int,
-        vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): int
+        vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): int,
     }
 )
+
 
 class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     """Handle flow."""
