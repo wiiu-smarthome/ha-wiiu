@@ -3,10 +3,20 @@
 from typing import Any
 
 import voluptuous as vol
+
+from homeassistant.const import CONF_IP_ADDRESS, CONF_PORT, CONF_NAME, CONF_SCAN_INTERVAL
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 
-from custom_components.nintendo_wiiu_ristretto import DOMAIN
+from .const import DOMAIN
 
+SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_IP_ADDRESS): str,
+        vol.Required(CONF_PORT, default=8572): int,
+        vol.Optional(CONF_NAME, default="Wii U"): str,
+        vol.Optional(CONF_SCAN_INTERVAL, default=10): int,
+    }
+)
 
 class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     """Handle flow."""
@@ -19,10 +29,10 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         """User setup step."""
         errors = {}
         if user_input is not None:
-            return self.async_create_entry(title="Wii U", data=user_input)
+            return self.async_create_entry(title=user_input[CONF_NAME], data=user_input)
 
         return self.async_show_form(
             step_id="user",
-            data_schema=vol.Schema({"ip": str, "port": int}),
+            data_schema=SCHEMA,
             errors=errors,
         )

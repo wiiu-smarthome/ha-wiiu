@@ -5,8 +5,8 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
 from .coordinator import WiiUCoordinator
+from .const import DOMAIN
 
-DOMAIN = "nintendo_wiiu_ristretto"
 PLATFORMS = [Platform.BUTTON, Platform.MEDIA_PLAYER]
 
 
@@ -14,9 +14,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Entry setup."""
     coordinator = WiiUCoordinator(
         hass=hass,
-        config_entry=entry,
-        ip_address=entry.data["ip"],
-        ristretto_port=entry.data["port"],
+        config_entry=entry
     )
 
     entry.runtime_data = coordinator

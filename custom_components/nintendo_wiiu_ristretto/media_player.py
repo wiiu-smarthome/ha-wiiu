@@ -1,3 +1,5 @@
+"""Represent a media player entity for the Nintendo Wii U console."""
+
 from homeassistant.components.media_player import (
     MediaPlayerDeviceClass,
     MediaPlayerEntity,
@@ -7,8 +9,8 @@ from homeassistant.components.media_player.const import (
     MediaPlayerState,
 )
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import CONF_NAME
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from custom_components.nintendo_wiiu_ristretto.coordinator import WiiUCoordinator
@@ -19,9 +21,16 @@ async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
-):
+) -> None:
+    """Set up the Wii U media player entity."""
     # TODO: Make list, handle devices being offline
-    async_add_entities([NintendoWiiUMediaPlayer(coordinator=config_entry.runtime_data)])
+    async_add_entities(
+        [
+            NintendoWiiUMediaPlayer(
+                coordinator=config_entry.runtime_data, name=config_entry.data[CONF_NAME]
+            )
+        ]
+    )
 
 
 class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
@@ -32,40 +41,41 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         MediaPlayerEntityFeature.TURN_OFF | MediaPlayerEntityFeature.SELECT_SOURCE
     )
 
-    def __init__(self, coordinator: WiiUCoordinator):
+    def __init__(self, coordinator: WiiUCoordinator, name: str):
+        """Initialize the Wii U media player entity."""
         super().__init__(coordinator=coordinator)
         self.coordinator = coordinator
-        self._attr_name = "Wii U"
+        self._attr_name = name
         self._attr_device_class = MediaPlayerDeviceClass.TV
         self._attr_source = coordinator.source
         self._attr_source_list = coordinator.source_list
 
     @property
     def app_name(self) -> str:
+        """Return the name of the currently running app."""
+        return self.coordinator.source
+
+    @property
+    def source(self) -> str:
+        """Return the name of the source (the currently running app)."""
         return self.coordinator.source
 
     @property
     def state(self) -> MediaPlayerState:
+        """Return the state of the device."""
         if self.coordinator.is_on:
             return MediaPlayerState.ON
         return MediaPlayerState.OFF
 
-    @property
-    def device_info(self) -> DeviceInfo:
-        return self.coordinator._attr_device_info
-
-    @property
-    def unique_id(self) -> str:
-        return self.coordinator.serial
-
-    async def async_get_device_info(self):
-        await self.coordinator.async_get_device_info()
-
     async def async_select_source(self, source: str) -> None:
-        await self.coordinator.async_select_source(source)
+        """Select a source on the Wii U console."""
+        for titleid, name in self.coordinator.title_map.items():
+            if name == source:
+                return await self.hass.async_add_executor_job(
+                    self.coordinator.wii.launch_title, titleid
+                )
+        return None
 
-    async def async_update(self) -> None:
-        return await self.coordinator._async_update_data()
-
-    async def async_turn_off(self):
-        await self.coordinator.async_turn_off()
+    async def async_turn_off(self) -> None:
+        """Turn off the Wii U console."""
+        await self.hass.async_add_executor_job(self.coordinator.wii.shutdown)

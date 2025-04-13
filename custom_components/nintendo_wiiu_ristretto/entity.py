@@ -1,5 +1,6 @@
 """Base entity for a Wii U device."""
 
+from homeassistant.const import CONF_NAME
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -14,8 +15,15 @@ class WiiUEntity(CoordinatorEntity[WiiUCoordinator]):
         super().__init__(coordinator=coordinator)
         self._attr_unique_id = coordinator.config_entry.entry_id
 
-        self._attr_device_info = DeviceInfo(
-            identifiers={("nintendo_wiiu_ristretto", coordinator.serial)},
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return device info."""
+        return DeviceInfo(
+            identifiers={("nintendo_wiiu_ristretto", self.coordinator.serial)},
             manufacturer="Nintendo",
-            name="Wii U",
+            name=self.coordinator.config_entry.data[CONF_NAME],
+            hw_version=str(self.coordinator.hw_version),
+            model=self.coordinator.model,
+            serial_number=self.coordinator.serial,
+            sw_version=self.coordinator.sw_version,
         )
