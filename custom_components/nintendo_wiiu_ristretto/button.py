@@ -43,10 +43,10 @@ async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     coordinator = config_entry.runtime_data
     if not isinstance(coordinator, WiiUCoordinator):
         return
-    for description in ENTITY_DESCRIPTIONS:
-        async_add_entities(
-            [GenericWiiUButton(coordinator=coordinator, description=description)]
-        )
+    async_add_entities(
+        [GenericWiiUButton(coordinator=coordinator, description=description)
+         for description in ENTITY_DESCRIPTIONS]
+    )
 
 
 class GenericWiiUButton(WiiUEntity, ButtonEntity):
@@ -59,6 +59,11 @@ class GenericWiiUButton(WiiUEntity, ButtonEntity):
         super().__init__(coordinator=coordinator)
         self.coordinator = coordinator
         self.entity_description: WiiUButtonEntityDescription = description
+
+    @property
+    def available(self) -> bool:
+        """Return availablity for the entity."""
+        return self.coordinator.is_on
 
     async def async_press(self) -> None:
         """Perform a given action on press."""

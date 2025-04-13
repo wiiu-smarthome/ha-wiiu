@@ -78,3 +78,4 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         """Turn off the Wii U console."""
         await self.coordinator.wii.async_shutdown()
         self.coordinator.is_on = False
+        self.schedule_update_ha_state(force_refresh=True)

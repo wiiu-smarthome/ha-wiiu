@@ -4,6 +4,8 @@ import json
 import logging
 from datetime import timedelta
 
+from asyncio import TimeoutError
+from aiohttp import ClientOSError
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_IP_ADDRESS,
@@ -24,6 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 class WiiUCoordinator(DataUpdateCoordinator):
     """Coordinate communication with Wii U."""
 
+    gamepad_battery: int = None
     serial: str = None
     source_list: list = None
     source: str = None
@@ -83,6 +86,11 @@ class WiiUCoordinator(DataUpdateCoordinator):
         try:
             await self._get_current_app_name()
             await self._get_source_list()
+            self.gamepad_battery = await self.wii.async_get_gamepad_battery()
             self.is_on = True
-        except Exception as e:
+        except (TimeoutError, ClientOSError, ConnectionError):
             self.is_on = False
+        except Exception as e:
+            _LOGGER.exception("Error updating data", exc_info=e)
+            return False
+        return True
