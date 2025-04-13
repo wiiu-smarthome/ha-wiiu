@@ -5,21 +5,23 @@
 [![License][license-shield]](LICENSE)
 
 ![Project Maintenance][maintenance-shield]
-[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
+<!-- [![BuyMeCoffee][buymecoffeebadge]][buymecoffee] -->
 
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
 
-_Integration to integrate with [Wii U][Wii U]._
+_Integration to integrate with a hacked [Wii U][Wii U] console with [Ristretto][Ristretto].
 
 **This integration will set up the following platforms.**
 
 Platform | Description
 -- | --
-`media_player` | Show something `True` or `False`.
-`button` | Show info from blueprint API.
+`media_player` | Shows the current running title or application.
+`button` | Restart console button.
 
 ## Installation
+
+First, make sure you have [Ristretto][Ristretto] installed.
 
 ### HACS
 
@@ -46,13 +48,13 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 ***
 
 [Wii U]: https://github.com/ItzSwirlz/ha-wiiu
-[buymecoffee]: https://www.buymeacoffee.com/ItzSwirlz
+[Ristretto]: https://github.com/ItzSwirlz/Ristretto
+<!-- [buymecoffee]: https://www.buymeacoffee.com/ItzSwirlz -->
 <!-- [buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge -->
 [commits-shield]: https://img.shields.io/github/commit-activity/y/ItzSwirlz/ha-wiiu.svg?style=for-the-badge
 [commits]: https://github.com/ItzSwirlz/ha-wiiu/commits/main
 [discord]: https://discord.gg/Qa5fW2R
 [discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
-[exampleimg]: example.png
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
 [forum]: https://community.home-assistant.io/
 [license-shield]: https://img.shields.io/github/license/ItzSwirlz/ha-wiiu.svg?style=for-the-badge
