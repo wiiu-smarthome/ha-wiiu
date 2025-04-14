@@ -69,4 +69,4 @@ class GenericWiiUButton(WiiUEntity, ButtonEntity):
 
     async def async_press(self) -> None:
         """Perform a given action on press."""
-        await self.entity_description.press_fn(self)
+        await self.entity_description.press_fn(self)()
