@@ -79,7 +79,6 @@ class WiiUCoordinator(DataUpdateCoordinator):
             session=async_create_clientsession(self.hass),
             timeout=self.config_entry.data.get(CONF_TIMEOUT, DEFAULT_TIMEOUT),
         )
-        self.wii.timeout = self.config_entry.data.get(CONF_SCAN_INTERVAL)
         await self.async_get_hardware_information()
         await self._get_source_list()
 
@@ -90,7 +89,9 @@ class WiiUCoordinator(DataUpdateCoordinator):
             await self._get_source_list()
             self.gamepad_battery = await self.wii.async_get_gamepad_battery()
             self.is_on = True
-        except (TimeoutError, ClientOSError, ConnectionError):
+        except ClientOSError:
+            pass # silently discard connection reset errors as this can happen when switching source
+        except (TimeoutError, ConnectionError):
             self.is_on = False
         except Exception as e:
             _LOGGER.exception("Error updating data", exc_info=e)
