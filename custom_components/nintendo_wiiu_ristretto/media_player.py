@@ -51,6 +51,11 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         self._attr_source_list = coordinator.source_list
 
     @property
+    def unique_id(self) -> str:
+        """Unique ID for media player."""
+        return self.coordinator.serial
+
+    @property
     def app_name(self) -> str:
         """Return the name of the currently running app."""
         return self.coordinator.source

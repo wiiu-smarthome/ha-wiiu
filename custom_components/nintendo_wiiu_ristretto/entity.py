@@ -13,7 +13,13 @@ class WiiUEntity(CoordinatorEntity[WiiUCoordinator]):
     def __init__(self, coordinator: WiiUCoordinator) -> None:
         """Initialize entity and coordinator."""
         super().__init__(coordinator=coordinator)
-        self._attr_unique_id = coordinator.config_entry.entry_id
+
+    @property
+    def unique_id(self) -> str:
+        """Generate a unique ID for this entity."""
+        if self.entity_description is not None:
+            return f"{self.coordinator.serial}_{self.entity_description.key}"
+        return f"{self.coordinator.serial}_{self.name}"
 
     @property
     def device_info(self) -> DeviceInfo:
