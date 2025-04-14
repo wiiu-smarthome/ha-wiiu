@@ -24,7 +24,7 @@ ENTITY_DESCRIPTIONS = [
         key="gamepad_charging",
         device_class=BinarySensorDeviceClass.BATTERY_CHARGING,
         name="Gamepad Charging",
-        is_on_fn=lambda entity: entity.coordinator.gamepad_battery == 0
+        is_on_fn=lambda entity: entity.coordinator.gamepad_charging
     )
 ]
 

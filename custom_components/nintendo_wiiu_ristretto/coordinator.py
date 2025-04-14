@@ -26,6 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 class WiiUCoordinator(DataUpdateCoordinator):
     """Coordinate communication with Wii U."""
 
+    gamepad_charging: bool = False
     gamepad_battery: int = None
     serial: str = None
     source_list: list = None
@@ -90,9 +91,11 @@ class WiiUCoordinator(DataUpdateCoordinator):
             if isinstance(self.gamepad_battery, int):
                 if self.gamepad_battery == 0:
                     # battery charging
+                    self.gamepad_charging = True
                     self.gamepad_battery = 100
                 else:
-                    self.gamepad_battery = (self.gamepad_battery/5)*100
+                    self.gamepad_charging = False
+                    self.gamepad_battery = ((self.gamepad_battery-1)/5)*100
             self.is_on = True
         except ClientOSError:
             pass # silently discard connection reset errors as this can happen when switching source
