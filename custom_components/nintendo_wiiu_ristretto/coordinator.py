@@ -88,6 +88,8 @@ class WiiUCoordinator(DataUpdateCoordinator):
             await self._get_current_app_name()
             await self._get_source_list()
             self.gamepad_battery = await self.wii.async_get_gamepad_battery()
+            if isinstance(self.gamepad_battery, int):
+                self.gamepad_battery = (self.gamepad_battery/6)*100
             self.is_on = True
         except ClientOSError:
             pass # silently discard connection reset errors as this can happen when switching source
