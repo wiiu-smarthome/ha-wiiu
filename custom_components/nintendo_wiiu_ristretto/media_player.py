@@ -51,6 +51,11 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         self._attr_source_list = coordinator.source_list
 
     @property
+    def unique_id(self) -> str:
+        """Unique ID for media player."""
+        return self.coordinator.serial
+
+    @property
     def app_name(self) -> str:
         """Return the name of the currently running app."""
         return self.coordinator.source
@@ -71,11 +76,12 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         """Select a source on the Wii U console."""
         for titleid, name in self.coordinator.title_map.items():
             if name == source:
-                return await self.hass.async_add_executor_job(
-                    self.coordinator.wii.launch_title, titleid
-                )
-        return None
+                await self.coordinator.wii.async_launch_title(titleid)
+                self.coordinator.source = name
+                self.schedule_update_ha_state(force_refresh=True)
 
     async def async_turn_off(self) -> None:
         """Turn off the Wii U console."""
-        await self.hass.async_add_executor_job(self.coordinator.wii.shutdown)
+        await self.coordinator.wii.async_shutdown()
+        self.coordinator.is_on = False
+        self.schedule_update_ha_state(force_refresh=True)

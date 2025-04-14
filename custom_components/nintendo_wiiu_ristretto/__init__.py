@@ -5,17 +5,13 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
 from .coordinator import WiiUCoordinator
-from .const import DOMAIN
 
-PLATFORMS = [Platform.BUTTON, Platform.MEDIA_PLAYER]
+PLATFORMS = [Platform.BUTTON, Platform.MEDIA_PLAYER, Platform.SENSOR, Platform.BINARY_SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Entry setup."""
-    coordinator = WiiUCoordinator(
-        hass=hass,
-        config_entry=entry
-    )
+    coordinator = WiiUCoordinator(hass=hass, config_entry=entry)
 
     entry.runtime_data = coordinator
     await coordinator.async_config_entry_first_refresh()

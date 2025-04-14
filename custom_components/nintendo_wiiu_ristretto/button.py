@@ -18,6 +18,11 @@ from .entity import WiiUEntity
 class WiiUButtonEntityDescription(ButtonEntityDescription):
     """Class describing Wii U button entities."""
 
+    key: str
+    name: str
+    device_class: ButtonDeviceClass | None = None
+    icon: str | None = None
+    entity_category: EntityCategory | None = None
     press_fn: Callable[[WiiUEntity], None] = lambda: None
 
 
@@ -26,10 +31,16 @@ ENTITY_DESCRIPTIONS: list[WiiUButtonEntityDescription] = [
         key="restart",
         name="Restart",
         device_class=ButtonDeviceClass.RESTART,
-        press_fn=lambda entity: entity.coordinator.async_reboot(),
+        press_fn=lambda entity: entity.coordinator.wii.async_reboot,
         icon="mdi:restart",
         entity_category=EntityCategory.DIAGNOSTIC,
     ),
+    WiiUButtonEntityDescription(
+        key="launch_vwii",
+        name="Launch vWii",
+        press_fn=lambda entity: entity.coordinator.wii.async_launch_vwii_menu,
+        icon="mdi:nintendo-wii"
+    )
 ]
 
 
@@ -38,10 +49,12 @@ async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     coordinator = config_entry.runtime_data
     if not isinstance(coordinator, WiiUCoordinator):
         return
-    for description in ENTITY_DESCRIPTIONS:
-        async_add_entities(
-            [GenericWiiUButton(coordinator=coordinator, description=description)]
-        )
+    async_add_entities(
+        [
+            GenericWiiUButton(coordinator=coordinator, description=description)
+            for description in ENTITY_DESCRIPTIONS
+        ]
+    )
 
 
 class GenericWiiUButton(WiiUEntity, ButtonEntity):
@@ -55,6 +68,11 @@ class GenericWiiUButton(WiiUEntity, ButtonEntity):
         self.coordinator = coordinator
         self.entity_description: WiiUButtonEntityDescription = description
 
+    @property
+    def available(self) -> bool:
+        """Return availablity for the entity."""
+        return self.coordinator.is_on
+
     async def async_press(self) -> None:
         """Perform a given action on press."""
-        await self.entity_description.press_fn(self)
+        await self.entity_description.press_fn(self)()
