@@ -2,7 +2,7 @@
 
 import json
 import logging
-from asyncio import TimeoutError
+from asyncio import TimeoutError as AsyncTimeoutError
 from datetime import timedelta
 
 from aiohttp import ClientOSError
@@ -88,11 +88,15 @@ class WiiUCoordinator(DataUpdateCoordinator):
             await self._get_current_app_name()
             self.gamepad_battery = await self.wii.async_get_gamepad_battery()
             if isinstance(self.gamepad_battery, int):
-                self.gamepad_battery = (self.gamepad_battery/6)*100
+                if self.gamepad_battery == 0:
+                    # battery charging
+                    self.gamepad_battery = 100
+                else:
+                    self.gamepad_battery = (self.gamepad_battery/5)*100
             self.is_on = True
         except ClientOSError:
             pass # silently discard connection reset errors as this can happen when switching source
-        except (TimeoutError, ConnectionError):
+        except (AsyncTimeoutError, ConnectionError):
             self.is_on = False
         except Exception as e:
             _LOGGER.exception("Error updating data", exc_info=e)
