@@ -86,7 +86,6 @@ class WiiUCoordinator(DataUpdateCoordinator):
         """Update the data from the Wii U."""
         try:
             await self._get_current_app_name()
-            await self._get_source_list()
             self.gamepad_battery = await self.wii.async_get_gamepad_battery()
             if isinstance(self.gamepad_battery, int):
                 self.gamepad_battery = (self.gamepad_battery/6)*100
