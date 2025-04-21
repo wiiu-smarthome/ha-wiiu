@@ -10,6 +10,16 @@
                     "scan_interval": "Update Interval",
                     "timeout": "Timeout"
                 }
+            },
+            "dhcp_confirm": {
+                "description": "Configuring device {ip_address}\n\nMake sure your console is on, and Ristretto is running. Be aware currently powering on the console from powered off state is not available, nor is requests when ProcUI is in the foreground (when applets are open). Requests while an applet is open can cause the console to softlock or crash.",
+                "data": {
+                    "ip_address": "IP Address",
+                    "port": "Ristretto Port",
+                    "name": "Device Name",
+                    "scan_interval": "Update Interval",
+                    "timeout": "Timeout"
+                }
             }
         },
         "error": {
@@ -18,7 +28,7 @@
             "unknown": "Unknown error occurred."
         },
         "abort": {
-            "already_configured": "This entry is already configured."
+            "already_configured": "This device is already configured."
         }
     }
 }
