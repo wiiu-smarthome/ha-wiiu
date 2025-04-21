@@ -4,6 +4,11 @@
     "config_flow": true,
     "codeowners": [],
     "dependencies": [],
+    "dhcp": [
+        {
+            "macaddress": "34AF2C*"
+        }
+    ],
     "iot_class": "local_polling",
     "loggers": [
         "python_wiiu_ristretto"
