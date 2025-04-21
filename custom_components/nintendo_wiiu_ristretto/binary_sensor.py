@@ -19,14 +19,16 @@ class WiiUBinarySensorEntityDescription(BinarySensorEntityDescription):
 
     is_on_fn: Callable[[WiiUEntity], None] = lambda: None
 
+
 ENTITY_DESCRIPTIONS = [
     WiiUBinarySensorEntityDescription(
         key="gamepad_charging",
         device_class=BinarySensorDeviceClass.BATTERY_CHARGING,
         name="Gamepad Charging",
-        is_on_fn=lambda entity: entity.coordinator.gamepad_charging
+        is_on_fn=lambda entity: entity.coordinator.gamepad_charging,
     )
 ]
+
 
 async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     """Set up the button platform."""
@@ -40,10 +42,15 @@ async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
         ]
     )
 
+
 class GenericWiiUBinarySensor(WiiUEntity, BinarySensorEntity):
     """A generic Wii U binary sensor."""
 
-    def __init__(self, coordinator: WiiUCoordinator, description: WiiUBinarySensorEntityDescription):
+    def __init__(
+        self,
+        coordinator: WiiUCoordinator,
+        description: WiiUBinarySensorEntityDescription,
+    ):
         """Initialize a binary sensor."""
         super().__init__(coordinator)
         self.coordinator = coordinator

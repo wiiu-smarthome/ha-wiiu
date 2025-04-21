@@ -30,7 +30,7 @@ ENTITY_DESCRIPTIONS: list[WiiUSensorEntityDescription] = [
         state_class=SensorStateClass.MEASUREMENT,
         device_class=SensorDeviceClass.BATTERY,
         value_fn=lambda entity: entity.coordinator.gamepad_battery,
-        suggested_display_precision=0
+        suggested_display_precision=0,
     )
 ]
 

@@ -95,10 +95,10 @@ class WiiUCoordinator(DataUpdateCoordinator):
                     self.gamepad_battery = 100
                 else:
                     self.gamepad_charging = False
-                    self.gamepad_battery = ((self.gamepad_battery-1)/5)*100
+                    self.gamepad_battery = ((self.gamepad_battery - 1) / 5) * 100
             self.is_on = True
         except ClientOSError:
-            pass # silently discard connection reset errors as this can happen when switching source
+            pass  # silently discard connection reset errors as this can happen when switching source
         except (AsyncTimeoutError, ConnectionError):
             self.is_on = False
         except Exception as e:

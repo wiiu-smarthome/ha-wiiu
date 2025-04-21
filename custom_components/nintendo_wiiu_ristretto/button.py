@@ -39,8 +39,8 @@ ENTITY_DESCRIPTIONS: list[WiiUButtonEntityDescription] = [
         key="launch_vwii",
         name="Launch vWii",
         press_fn=lambda entity: entity.coordinator.wii.async_launch_vwii_menu,
-        icon="mdi:nintendo-wii"
-    )
+        icon="mdi:nintendo-wii",
+    ),
 ]
 
 
