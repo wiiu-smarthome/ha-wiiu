@@ -16,3 +16,5 @@ logger:
 debugpy:
   start: true
   wait: true
+
+automation: !include automations.yaml

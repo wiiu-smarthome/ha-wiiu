@@ -20,5 +20,18 @@
         "abort": {
             "already_configured": "This entry is already configured."
         }
+    },
+    "device_automation": {
+        "trigger_type": {
+            "nintendo_wiiu_ristretto.turn_on": "Device is requested to turn on"
+        }
+    },
+    "exceptions": {
+        "unhandled_trigger_type": {
+            "message": "Unhandled trigger type {trigger_type}."
+        },
+        "service_unsupported": {
+            "message": "Entity {entity} does not support this action."
+        }
     }
 }

@@ -38,7 +38,9 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
 
     _attr_icon = "mdi:nintendo-wiiu"
     _attr_supported_features = (
-        MediaPlayerEntityFeature.TURN_OFF | MediaPlayerEntityFeature.SELECT_SOURCE
+        MediaPlayerEntityFeature.TURN_OFF
+        | MediaPlayerEntityFeature.SELECT_SOURCE
+        | MediaPlayerEntityFeature.TURN_ON
     )
 
     def __init__(self, coordinator: WiiUCoordinator, name: str):
@@ -85,3 +87,9 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         await self.coordinator.wii.async_shutdown()
         self.coordinator.is_on = False
         self.schedule_update_ha_state(force_refresh=True)
+
+    async def async_turn_on(self) -> None:
+        """Turn on the Wii U console."""
+        if self.coordinator.is_on:
+            return
+        await self._turn_on_action.async_run(self.hass, self._context)
