@@ -3,12 +3,10 @@
 import logging
 
 from homeassistant.const import CONF_NAME
-from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.trigger import PluggableAction
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
 from .coordinator import WiiUCoordinator
 from .triggers.turn_on import async_get_turn_on_trigger
 
