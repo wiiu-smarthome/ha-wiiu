@@ -11,6 +11,8 @@ logger:
   logs:
     custom_components.nintendo_wiiu_ristretto: debug
     python_wiiu_ristretto: debug
+    aiodhcpwatcher: debug
+    scapy: debug
 
 # Enable VSCode debugging
 debugpy:

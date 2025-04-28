@@ -3,288 +3,384 @@
     "name": "Nintendo Wii U (with Ristretto)",
     "config_flow": true,
     "codeowners": [],
-    "dependencies": [],
+    "dependencies": [
+        "dhcp"
+    ],
     "dhcp": [
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "0009BF*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001656*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "0017AB*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001A9D*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001AE9*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001B7A*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001BEA*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001CBE*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001DBC*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001E35*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001EA9*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001F32*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "001FC5*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "002147*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "0021BD*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "00224C*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "0022AA*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "0022D7*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "002331*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "0023CC*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "00241E*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "002444*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "0024F3*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "0025A0*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "002659*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "002709*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "182A7B*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "1C4586*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "200BCF*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "201C3A*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "28CF51*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "2C10C1*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "342FBD*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "34AF2C*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "3CA9AB*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "40D28A*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "40F407*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "483177*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "48A5E7*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "48F1EB*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "50236D*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "582F40*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "58B03E*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "58BDA3*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "5C0CE6*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "5C521E*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "601AC7*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "606BFF*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "64B5C6*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "702C09*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "7048F7*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "70F088*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "748469*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "74F9CA*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "7820A5*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "78818C*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "78A2A0*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "7CBB8A*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "80D2E5*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "8C56C5*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "8CCDE8*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "904528*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "9458CB*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "98415C*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "98B6E9*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "98E255*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "98E8FA*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "9CE635*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "A438CC*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "A45C27*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "A4C0E1*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "ACFAE4*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "B88AEC*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "B8AE6E*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "B87826*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "BC744B*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "BC9EBB*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "BCCE25*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "CC5B31*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "CC9E00*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "CCFB65*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "D05509*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "D4F057*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "D86BF7*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "DC68EB*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "DCCD18*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "E00C7F*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "E0E751*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "E0EFBF*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "E0F6B5*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "E84ECE*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "E8A0CD*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "E8DA20*"
         },
         {
+            "hostname": "Nintendo Wii U",
             "macaddress": "ECC40D*"
         }
     ],
