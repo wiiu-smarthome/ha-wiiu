@@ -1,8 +1,8 @@
 {
     "domain": "nintendo_wiiu_ristretto",
     "name": "Nintendo Wii U (with Ristretto)",
-    "config_flow": true,
     "codeowners": [],
+    "config_flow": true,
     "dependencies": [],
     "documentation": "https://github.com/wiiu-smarthome/ha-wiiu",
     "iot_class": "local_polling",
