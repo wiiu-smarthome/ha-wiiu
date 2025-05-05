@@ -18,12 +18,11 @@ from custom_components.nintendo_wiiu_ristretto.entity import WiiUEntity
 
 
 async def async_setup_entry(
-    hass: HomeAssistant,
+    hass: HomeAssistant,  # noqa: ARG001
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the Wii U media player entity."""
-    # TODO: Make list, handle devices being offline
     async_add_entities(
         [
             NintendoWiiUMediaPlayer(
@@ -33,7 +32,7 @@ async def async_setup_entry(
     )
 
 
-class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
+class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):  # pylint: disable=W0223
     """Representation of a Wii U console."""
 
     _attr_icon = "mdi:nintendo-wiiu"
@@ -43,7 +42,7 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         | MediaPlayerEntityFeature.TURN_ON
     )
 
-    def __init__(self, coordinator: WiiUCoordinator, name: str):
+    def __init__(self, coordinator: WiiUCoordinator, name: str) -> None:
         """Initialize the Wii U media player entity."""
         super().__init__(coordinator=coordinator)
         self.coordinator = coordinator

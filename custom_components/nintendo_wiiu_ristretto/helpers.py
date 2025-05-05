@@ -2,14 +2,19 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
-from homeassistant.helpers.device_registry import DeviceEntry
 
 from .const import DOMAIN
-from .coordinator import WiiUCoordinator
+
+if TYPE_CHECKING:
+    from homeassistant.helpers.device_registry import DeviceEntry
+
+    from .coordinator import WiiUCoordinator
 
 
 @callback
@@ -23,9 +28,11 @@ def async_get_device_entry_by_device_id(
     """
     device_reg = dr.async_get(hass)
     if (device := device_reg.async_get(device_id)) is None:
-        raise ValueError(f"Device {device_id} is not a valid {DOMAIN} device.")
+        msg = f"Device {device_id} is not a valid {DOMAIN} device."
+        raise ValueError(msg)
 
     return device
+
 
 @callback
 def async_get_device_id_from_entity_id(hass: HomeAssistant, entity_id: str) -> str:
@@ -42,9 +49,11 @@ def async_get_device_id_from_entity_id(hass: HomeAssistant, entity_id: str) -> s
         or entity_entry.device_id is None
         or entity_entry.platform != DOMAIN
     ):
-        raise ValueError(f"Entity {entity_id} is not a valid {DOMAIN} entity.")
+        msg = f"Entity {entity_id} is not a valid {DOMAIN} entity."
+        raise ValueError(msg)
 
     return entity_entry.device_id
+
 
 @callback
 def async_get_client_by_device_entry(
@@ -61,6 +70,5 @@ def async_get_client_by_device_entry(
         if entry and entry.domain == DOMAIN and entry.state is ConfigEntryState.LOADED:
             return entry.runtime_data
 
-    raise ValueError(
-        f"Device {device.id} is not from an existing {DOMAIN} config entry"
-    )
+    msg = f"Device {device.id} is not from an existing {DOMAIN} config entry"
+    raise ValueError(msg)

@@ -8,7 +8,9 @@ from homeassistant.components.button import (
     ButtonEntity,
     ButtonEntityDescription,
 )
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory
+from homeassistant.core import HomeAssistant
 
 from .coordinator import WiiUCoordinator
 from .entity import WiiUEntity
@@ -39,12 +41,16 @@ ENTITY_DESCRIPTIONS: list[WiiUButtonEntityDescription] = [
         key="launch_vwii",
         name="Launch vWii",
         press_fn=lambda entity: entity.coordinator.wii.async_launch_vwii_menu,
-        icon="mdi:nintendo-wii"
-    )
+        icon="mdi:nintendo-wii",
+    ),
 ]
 
 
-async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
+async def async_setup_entry(
+    hass: HomeAssistant,  # noqa: ARG001
+    config_entry: ConfigEntry,
+    async_add_entities: Callable[[list[ButtonEntity]], None],
+) -> None:
     """Set up the button platform."""
     coordinator = config_entry.runtime_data
     if not isinstance(coordinator, WiiUCoordinator):
@@ -76,3 +82,7 @@ class GenericWiiUButton(WiiUEntity, ButtonEntity):
     async def async_press(self) -> None:
         """Perform a given action on press."""
         await self.entity_description.press_fn(self)()
+
+    def press(self) -> None:
+        """Perform a given action on press synchronously."""
+        self.hass.async_create_task(self.async_press())

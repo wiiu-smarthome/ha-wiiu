@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import voluptuous as vol
 from homeassistant.const import (
     ATTR_DEVICE_ID,
@@ -17,13 +19,15 @@ from homeassistant.helpers.trigger import (
     PluggableAction,
     TriggerInfo,
 )
-from homeassistant.helpers.typing import ConfigType
 
-from ..const import DOMAIN
-from ..helpers import (
+from nintendo_wiiu_ristretto.const import DOMAIN
+from nintendo_wiiu_ristretto.helpers import (
     async_get_device_entry_by_device_id,
     async_get_device_id_from_entity_id,
 )
+
+if TYPE_CHECKING:
+    from homeassistant.helpers.typing import ConfigType
 
 # Platform type should be <DOMAIN>.<SUBMODULE_NAME>
 PLATFORM_TYPE = f"{DOMAIN}.{__name__.rsplit('.', maxsplit=1)[-1]}"
@@ -41,6 +45,7 @@ TRIGGER_SCHEMA = vol.All(
     cv.has_at_least_one_key(ATTR_ENTITY_ID, ATTR_DEVICE_ID),
 )
 
+
 def async_get_turn_on_trigger(device_id: str) -> dict[str, str]:
     """Return data for a turn on trigger."""
     return {
@@ -49,6 +54,7 @@ def async_get_turn_on_trigger(device_id: str) -> dict[str, str]:
         CONF_DOMAIN: DOMAIN,
         CONF_TYPE: PLATFORM_TYPE,
     }
+
 
 async def async_attach_trigger(
     hass: HomeAssistant,

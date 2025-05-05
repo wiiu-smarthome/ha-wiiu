@@ -4,11 +4,13 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from homeassistant.components.sensor import (
-    RestoreSensor,
     SensorDeviceClass,
+    SensorEntity,
     SensorEntityDescription,
     SensorStateClass,
 )
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 
 from .coordinator import WiiUCoordinator
 from .entity import WiiUEntity
@@ -30,12 +32,16 @@ ENTITY_DESCRIPTIONS: list[WiiUSensorEntityDescription] = [
         state_class=SensorStateClass.MEASUREMENT,
         device_class=SensorDeviceClass.BATTERY,
         value_fn=lambda entity: entity.coordinator.gamepad_battery,
-        suggested_display_precision=0
+        suggested_display_precision=0,
     )
 ]
 
 
-async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
+async def async_setup_entry(
+    hass: HomeAssistant,  # noqa: ARG001
+    config_entry: ConfigEntry,
+    async_add_entities: Callable[[list[SensorEntity]], None],
+) -> None:
     """Set up the button platform."""
     coordinator = config_entry.runtime_data
     if not isinstance(coordinator, WiiUCoordinator):
@@ -48,7 +54,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
     )
 
 
-class GenericWiiUSensor(WiiUEntity, RestoreSensor):
+class GenericWiiUSensor(WiiUEntity, SensorEntity):
     """Generic sensor for Wii U using a restore sensor."""
 
     def __init__(

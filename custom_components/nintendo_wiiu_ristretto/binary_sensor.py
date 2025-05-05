@@ -8,6 +8,8 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 
 from .coordinator import WiiUCoordinator
 from .entity import WiiUEntity
@@ -19,16 +21,22 @@ class WiiUBinarySensorEntityDescription(BinarySensorEntityDescription):
 
     is_on_fn: Callable[[WiiUEntity], None] = lambda: None
 
+
 ENTITY_DESCRIPTIONS = [
     WiiUBinarySensorEntityDescription(
         key="gamepad_charging",
         device_class=BinarySensorDeviceClass.BATTERY_CHARGING,
         name="Gamepad Charging",
-        is_on_fn=lambda entity: entity.coordinator.gamepad_charging
+        is_on_fn=lambda entity: entity.coordinator.gamepad_charging,
     )
 ]
 
-async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
+
+async def async_setup_entry(
+    hass: HomeAssistant,  # noqa: ARG001
+    config_entry: ConfigEntry,
+    async_add_entities: Callable[[list[BinarySensorEntity]], None],
+) -> None:
     """Set up the button platform."""
     coordinator = config_entry.runtime_data
     if not isinstance(coordinator, WiiUCoordinator):
@@ -40,10 +48,15 @@ async def async_setup_entry(hass, config_entry, async_add_entities) -> None:
         ]
     )
 
+
 class GenericWiiUBinarySensor(WiiUEntity, BinarySensorEntity):
     """A generic Wii U binary sensor."""
 
-    def __init__(self, coordinator: WiiUCoordinator, description: WiiUBinarySensorEntityDescription):
+    def __init__(
+        self,
+        coordinator: WiiUCoordinator,
+        description: WiiUBinarySensorEntityDescription,
+    ) -> None:
         """Initialize a binary sensor."""
         super().__init__(coordinator)
         self.coordinator = coordinator

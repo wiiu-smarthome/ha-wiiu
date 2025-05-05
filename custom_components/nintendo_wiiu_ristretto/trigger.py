@@ -2,18 +2,20 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from homeassistant.const import CONF_PLATFORM
-from homeassistant.core import CALLBACK_TYPE, HomeAssistant
-from homeassistant.helpers.trigger import (
-    TriggerActionType,
-    TriggerInfo,
-    TriggerProtocol,
-)
-from homeassistant.helpers.typing import ConfigType
 
 from .triggers import turn_on
+
+if TYPE_CHECKING:
+    from homeassistant.core import CALLBACK_TYPE, HomeAssistant
+    from homeassistant.helpers.trigger import (
+        TriggerActionType,
+        TriggerInfo,
+        TriggerProtocol,
+    )
+    from homeassistant.helpers.typing import ConfigType
 
 TRIGGERS = {
     "turn_on": turn_on,
@@ -23,17 +25,19 @@ TRIGGERS = {
 def _get_trigger_platform(config: ConfigType) -> TriggerProtocol:
     """Return trigger platform."""
     platform_split = config[CONF_PLATFORM].split(".", maxsplit=1)
-    if len(platform_split) < 2 or platform_split[1] not in TRIGGERS:
-        raise ValueError(f"Unknown Ristretto trigger platform {config[CONF_PLATFORM]}")
-    return cast(TriggerProtocol, TRIGGERS[platform_split[1]])
+    if len(platform_split) < 2 or platform_split[1] not in TRIGGERS:  # noqa: PLR2004
+        msg = f"Unknown Ristretto trigger platform {config[CONF_PLATFORM]}"
+        raise ValueError(msg)
+    return cast("TriggerProtocol", TRIGGERS[platform_split[1]])
 
 
 async def async_validate_trigger_config(
-    hass: HomeAssistant, config: ConfigType
+    hass: HomeAssistant,  # noqa: ARG001
+    config: ConfigType,
 ) -> ConfigType:
     """Validate config."""
     platform = _get_trigger_platform(config)
-    return cast(ConfigType, platform.TRIGGER_SCHEMA(config))
+    return cast("ConfigType", platform.TRIGGER_SCHEMA(config))
 
 
 async def async_attach_trigger(

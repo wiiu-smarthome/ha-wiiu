@@ -12,6 +12,7 @@ from .triggers.turn_on import async_get_turn_on_trigger
 
 LOGGER = logging.getLogger(__name__)
 
+
 class WiiUEntity(CoordinatorEntity[WiiUCoordinator]):
     """Base entity for a Wii U device."""
 
