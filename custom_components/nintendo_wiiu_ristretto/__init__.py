@@ -6,7 +6,12 @@ from homeassistant.core import HomeAssistant
 
 from .coordinator import WiiUCoordinator
 
-PLATFORMS = [Platform.BUTTON, Platform.MEDIA_PLAYER, Platform.SENSOR, Platform.BINARY_SENSOR]
+PLATFORMS = [
+    Platform.BUTTON,
+    Platform.MEDIA_PLAYER,
+    Platform.SENSOR,
+    Platform.BINARY_SENSOR,
+]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

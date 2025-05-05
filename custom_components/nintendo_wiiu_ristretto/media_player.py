@@ -18,12 +18,11 @@ from custom_components.nintendo_wiiu_ristretto.entity import WiiUEntity
 
 
 async def async_setup_entry(
-    hass: HomeAssistant,
+    hass: HomeAssistant,  # noqa: ARG001
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the Wii U media player entity."""
-    # TODO: Make list, handle devices being offline
     async_add_entities(
         [
             NintendoWiiUMediaPlayer(
@@ -33,15 +32,17 @@ async def async_setup_entry(
     )
 
 
-class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
+class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):  # pylint: disable=W0223
     """Representation of a Wii U console."""
 
     _attr_icon = "mdi:nintendo-wiiu"
     _attr_supported_features = (
-        MediaPlayerEntityFeature.TURN_OFF | MediaPlayerEntityFeature.SELECT_SOURCE
+        MediaPlayerEntityFeature.TURN_OFF
+        | MediaPlayerEntityFeature.SELECT_SOURCE
+        | MediaPlayerEntityFeature.TURN_ON
     )
 
-    def __init__(self, coordinator: WiiUCoordinator, name: str):
+    def __init__(self, coordinator: WiiUCoordinator, name: str) -> None:
         """Initialize the Wii U media player entity."""
         super().__init__(coordinator=coordinator)
         self.coordinator = coordinator
@@ -85,3 +86,9 @@ class NintendoWiiUMediaPlayer(WiiUEntity, MediaPlayerEntity):
         await self.coordinator.wii.async_shutdown()
         self.coordinator.is_on = False
         self.schedule_update_ha_state(force_refresh=True)
+
+    async def async_turn_on(self) -> None:
+        """Turn on the Wii U console."""
+        if self.coordinator.is_on:
+            return
+        await self._turn_on_action.async_run(self.hass, self._context)
