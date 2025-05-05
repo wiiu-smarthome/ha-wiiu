@@ -17,6 +17,12 @@ jobs:
       - name: "Checkout the repository"
         uses: "actions/checkout@v4.2.2"
 
+      - name: "Adjust version number"
+        shell: "bash"
+        run: |
+          yq -i -o json '.version="${{ github.event.release.tag_name }}"' \
+            "${{ github.workspace }}/custom_components/nintendo_wiiu_ristretto/manifest.json"
+
       - name: "ZIP the integration directory"
         shell: "bash"
         run: |
