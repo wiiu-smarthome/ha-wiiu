@@ -3,8 +3,8 @@
     "name": "Nintendo Wii U (with Ristretto)",
     "config_flow": true,
     "codeowners": [],
-    "documentation": "https://github.com/wiiu-smarthome/ha-wiiu",
     "dependencies": [],
+    "documentation": "https://github.com/wiiu-smarthome/ha-wiiu",
     "iot_class": "local_polling",
     "loggers": [
         "python_wiiu_ristretto"
