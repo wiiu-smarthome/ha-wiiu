@@ -20,8 +20,8 @@ from homeassistant.helpers.trigger import (
     TriggerInfo,
 )
 
-from nintendo_wiiu_ristretto.const import DOMAIN
-from nintendo_wiiu_ristretto.helpers import (
+from ..const import DOMAIN  # noqa: TID252
+from ..helpers import (  # noqa: TID252
     async_get_device_entry_by_device_id,
     async_get_device_id_from_entity_id,
 )
