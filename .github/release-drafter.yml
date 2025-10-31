@@ -1,41 +1,30 @@
-name-template: '$RESOLVED_VERSION 🌈'
-tag-template: '$RESOLVED_VERSION'
-prerelease-identifier: 'beta'
+include-pre-releases: true
 categories:
-  - title: '🛠 Breaking Changes'
+  - title: Breaking Changes 🛠
     labels:
-      - 'breaking-change'
-  - title: '🚀 Features'
+      - breaking-change
+  - title: 'New Features 🎉'
     labels:
       - 'feature'
       - 'enhancement'
-  - title: '🐛 Bug Fixes'
+  - title: 'Bug Fixes 🛠'
     labels:
       - 'fix'
       - 'bugfix'
       - 'bug'
-  - title: '👒 Dependencies and extras'
+  - title: 'Documentation'
+    labels:
+      - 'docs'
+  - title: 'Dependencies and extras 👒'
     collapse-after: 3
     labels:
       - 'chore'
       - 'dependencies'
+exclude-labels:
+  - 'ignore-for-release'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
-version-resolver:
-  major:
-    labels:
-      - 'major'
-  minor:
-    labels:
-      - 'minor'
-  patch:
-    labels:
-      - 'patch'
-  default: patch
+change-title-escapes: '\<*_&'
 autolabeler:
-  - label: 'translations'
-    files:
-      - '**/translations/*.json'
   - label: 'docs'
     branch:
       - '/docs{0,1}\/.+/'
@@ -52,8 +41,6 @@ autolabeler:
     branch:
       - '/feature\/.+/'
       - '/feat\/.+/'
-exclude-labels:
-  - 'ignore-for-release'
 template: |
   ## Changes
 
