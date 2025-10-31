@@ -13,7 +13,7 @@ from homeassistant.const import (
     CONF_TIMEOUT,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.aiohttp_client import async_create_clientsession
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from python_wiiu_ristretto import WiiU
 
@@ -27,12 +27,8 @@ class WiiUCoordinator(DataUpdateCoordinator):
 
     gamepad_charging: bool = False
     gamepad_battery: int = None
-    serial: str = None
     source_list: list = None
     source: str = None
-    model: str = None
-    hw_version: str = None
-    sw_version: str = None
     wii: WiiU = None
     title_map: dict = None
 
@@ -55,13 +51,6 @@ class WiiUCoordinator(DataUpdateCoordinator):
         self._ristretto_port = config_entry.data[CONF_PORT]
         self.is_on = False
 
-    async def async_get_hardware_information(self) -> None:
-        """Get hardware information."""
-        self.serial = await self.wii.async_get_device_serial_id()
-        self.hw_version = await self.wii.async_get_device_hardware_version()
-        self.model = await self.wii.async_get_device_model_number()
-        self.sw_version = await self.wii.async_get_device_version()
-
     async def _get_current_app_name(self) -> None:
         """Get the current app name."""
         self.source = await self.wii.async_get_current_title_name()
@@ -76,15 +65,15 @@ class WiiUCoordinator(DataUpdateCoordinator):
         self.wii = WiiU(
             ip_address=self._ip_address,
             ristretto_port=self._ristretto_port,
-            session=async_create_clientsession(self.hass),
+            session=async_get_clientsession(self.hass),
             timeout=self.config_entry.data.get(CONF_TIMEOUT, DEFAULT_TIMEOUT),
         )
-        await self.async_get_hardware_information()
-        await self._get_source_list()
 
     async def _async_update_data(self) -> None:
         """Update the data from the Wii U."""
         try:
+            if self.title_map is None:
+                await self._get_source_list()
             await self._get_current_app_name()
             self.gamepad_battery = await self.wii.async_get_gamepad_battery()
             if isinstance(self.gamepad_battery, int):
