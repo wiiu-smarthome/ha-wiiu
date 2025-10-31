@@ -32,7 +32,6 @@ class WiiUEntity(CoordinatorEntity[WiiUCoordinator]):
         self.hw_version = coordinator.config_entry.data[ATTR_HW_VERSION]
         self.name = coordinator.config_entry.data[CONF_NAME]
 
-
     @property
     def unique_id(self) -> str:
         """Generate a unique ID for this entity."""

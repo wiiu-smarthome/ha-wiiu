@@ -44,6 +44,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Entry unloading."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
+
 async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Migrate a config entry to a new version."""
     if entry.version == 1:
@@ -56,9 +57,7 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 timeout=entry.data.get(CONF_TIMEOUT, DEFAULT_TIMEOUT),
             )
         except (TimeoutError, ConnectionError):
-            _LOGGER.exception(
-                "Migration will only work if the Wii U is powered on."
-            )
+            _LOGGER.exception("Migration will only work if the Wii U is powered on.")
             return False
         else:
             new_data = {
@@ -66,7 +65,7 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 ATTR_MODEL: model,
                 ATTR_SERIAL_NUMBER: serial,
                 ATTR_SW_VERSION: sw_version,
-                **entry.data
+                **entry.data,
             }
             await hass.config_entries.async_update_entry(
                 entry, data=new_data, version=2
