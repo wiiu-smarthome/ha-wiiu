@@ -36,7 +36,7 @@ async def get_device_info(
     hass: HomeAssistant,
     ip_addres: str,
     port: int,
-    timeout: int
+    timeout: int  # noqa: ASYNC109
 ) -> tuple[str, str, str, str]:
     """Return device info from Wii U."""
     wii = WiiU(
