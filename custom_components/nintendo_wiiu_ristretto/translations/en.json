@@ -1,0 +1,36 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "description": "Make sure your console is on, and Ristretto is running. Be aware currently powering on the console from powered off state is not available, nor is requests when ProcUI is in the foreground (when applets are open). Requests while an applet is open can cause the console to softlock or crash.",
+                "data": {
+                    "ip_address": "IP Address",
+                    "port": "Ristretto Port",
+                    "name": "Device Name",
+                    "scan_interval": "Update Interval",
+                    "timeout": "Timeout"
+                }
+            }
+        },
+        "error": {
+            "cannot_connect": "Unable to connect to the Wii U.",
+            "unknown": "Unknown error occurred."
+        },
+        "abort": {
+            "already_configured": "This entry is already configured."
+        }
+    },
+    "device_automation": {
+        "trigger_type": {
+            "nintendo_wiiu_ristretto.turn_on": "Device is requested to turn on"
+        }
+    },
+    "exceptions": {
+        "unhandled_trigger_type": {
+            "message": "Unhandled trigger type {trigger_type}."
+        },
+        "service_unsupported": {
+            "message": "Entity {entity} does not support this action."
+        }
+    }
+}
