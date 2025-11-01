@@ -2,7 +2,13 @@
 
 import logging
 
-from homeassistant.const import CONF_NAME
+from homeassistant.const import (
+    ATTR_HW_VERSION,
+    ATTR_MODEL,
+    ATTR_SERIAL_NUMBER,
+    ATTR_SW_VERSION,
+    CONF_NAME,
+)
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.trigger import PluggableAction
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -20,25 +26,35 @@ class WiiUEntity(CoordinatorEntity[WiiUCoordinator]):
         """Initialize entity and coordinator."""
         super().__init__(coordinator=coordinator)
         self._turn_on_action = PluggableAction(self.async_write_ha_state)
+        self.model = coordinator.config_entry.data[ATTR_MODEL]
+        self.serial_number = coordinator.config_entry.data[ATTR_SERIAL_NUMBER]
+        self.sw_version = coordinator.config_entry.data[ATTR_SW_VERSION]
+        self.hw_version = coordinator.config_entry.data[ATTR_HW_VERSION]
+        self.name = coordinator.config_entry.data[CONF_NAME]
 
     @property
     def unique_id(self) -> str:
         """Generate a unique ID for this entity."""
         if self.entity_description is not None:
-            return f"{self.coordinator.serial}_{self.entity_description.key}"
-        return f"{self.coordinator.serial}_{self.name}"
+            return f"{self.serial_number}_{self.entity_description.key}"
+        return f"{self.serial_number}_{self.name}"
 
     @property
     def device_info(self) -> DeviceInfo:
         """Return device info."""
         return DeviceInfo(
-            identifiers={("nintendo_wiiu_ristretto", self.coordinator.serial)},
+            identifiers={
+                (
+                    "nintendo_wiiu_ristretto",
+                    self.serial_number,
+                )
+            },
             manufacturer="Nintendo",
-            name=self.coordinator.config_entry.data[CONF_NAME],
-            hw_version=str(self.coordinator.hw_version),
-            model=self.coordinator.model,
-            serial_number=self.coordinator.serial,
-            sw_version=self.coordinator.sw_version,
+            name=self.name,
+            hw_version=self.hw_version,
+            model=self.model,
+            serial_number=self.serial_number,
+            sw_version=self.sw_version,
         )
 
     async def async_added_to_hass(self) -> None:
